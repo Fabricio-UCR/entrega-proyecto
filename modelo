@@ -1,0 +1,93 @@
+#Sección 3.1
+productos = []
+ventas = []
+alertas = []
+
+#Funciones
+def buscar_producto (codigo):
+    for producto in productos:
+        if producto["codigo"] == codigo:
+            return producto.copy()
+            
+    return None
+#Nuevo producto
+def registrar_producto(producto):
+    if buscar_producto(producto["codigo"]) != None:
+        return False
+    productos.append(producto.copy())
+    return True
+
+#consulta de productos
+def listar_productos():
+    lista = []
+
+    for producto in productos:
+        lista.append(producto.copy())
+    return lista
+
+#Agregar unidades
+def actualizar_stock(codigo, cantidad):
+    if type(cantidad) != int or cantidad <= 0:
+        return False
+    for producto in productos:
+        if producto["codigo"]== codigo:
+            producto["stock"] += cantidad
+            return True
+    return False
+
+#Descontar unidades
+def descontar_stock(codigo, cantidad):
+    if type(cantidad) != int or cantidad <= 0:
+        return False
+    for producto in productos:
+        if producto["codigo"] == codigo:
+            if producto["stock"] <= cantidad:
+                return False
+            producto["stock"] -= cantidad
+            return True
+    return False
+# Función de ventas
+
+#Guardar venta realizada
+def registrar_venta(venta):
+    nueva_venta = venta.copy()
+    detalles = []
+
+    for item in venta["productos_vendidos"]:
+        detalles.append(item.copy())
+
+    nueva_venta["productos_vendidos"] = detalles
+    ventas.append(nueva_venta)
+    return True
+#Consultar ventas
+
+def listar_ventas():
+    lista = []
+    for venta in ventas:
+        copia = venta.copy()
+        detalles = []
+        for item in venta["productos_vendidos"]:
+            detalles.append(item.copy())
+
+        copia["productos_vendidos"] = detalles
+        lista.append(copia)
+
+    return lista
+
+#Alertas
+
+#Alertas inventario
+
+def guardar_alertas(nuevas_alertas):
+    alertas.clear()
+    
+    for alerta in nuevas_alertas:
+        alertas.append(alerta.copy())
+    return True
+#Alertas registradas
+def listar_alertas():
+    lista = []
+
+    for alerta in alertas:
+        lista.append(alerta.copy())
+    return lista
